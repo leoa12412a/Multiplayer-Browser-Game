@@ -7,7 +7,7 @@
 npm install --save express socket.io
 ```
 
-### 載入模組並簡單的
+### 載入模組並簡單的設計一個html
 
 建立一個server.js，並載入模組，記得使用的port需要開啟防火牆
 
