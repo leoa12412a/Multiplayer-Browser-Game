@@ -1,0 +1,197 @@
+<html>
+	<head>
+		<title>websocket 遊戲</title>
+		<style>
+			canvas {
+				width: 800px;
+				height: 600px;
+				border: 5px solid black;
+			}
+		</style>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+		<script src="/socket.io/socket.io.js"></script>
+		<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+		<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+		<canvas id="canvas" onmousemove="mouse_on(event)"></canvas>
+		
+		<button id="btn" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display:none">
+			开始演示模态框
+		</button>
+		
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">	
+						<h4 class="modal-title" id="myModalLabel">
+							選擇你想要的顏色
+						</h4>
+					</div>
+					<div class="modal-body">	
+						<div class="row">
+							<div class="col" style="text-align:center;">
+								<button type="button" class="btn btn-primary" onclick="select_color('blue')">藍色</button>
+							</div>
+							<div class="col" style="text-align:center;">
+								<button type="button" class="btn btn-danger" onclick="select_color('red')">紅色</button>
+							</div>
+							<div class="col" style="text-align:center;">
+								<button type="button" class="btn btn-warning" onclick="select_color('yellow')">黃色</button>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer" style="display:none">
+						<button type="button" id="close" class="btn btn-default" data-dismiss="modal">关闭</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal -->
+		</div>
+		
+		<script>
+			window.onload = function()
+			{
+				document.getElementById('btn').click();   
+			}
+		
+			function mouse_on(event)
+			{
+				x = event.clientX;
+				y = event.clientY;
+				
+				console.log('x = ' + x + ", y = " + y);
+			}
+		</script>
+		
+		<script>
+			var i = 1;
+			
+			var circle_start = 37;
+			
+			var circle_end = 323;
+		
+			setInterval(function() {
+			
+				if(i == 1)
+				{
+					open();
+				}
+				else
+				{
+					close();
+				}
+				
+				i *= -1;
+				
+			}, 200);
+			
+			function open()
+			{
+				circle_start = 37;
+				circle_end = 323;
+			}
+		
+			function close()
+			{
+				circle_start = 0;
+				circle_end = 355;
+			}
+		
+		
+			function select_color(color)
+			{
+				connect_server(color);
+				document.getElementById('close').click(); 
+			}
+
+			function connect_server(color)
+			{
+				var socket = io(); 
+				
+				socket.emit('new_player',color);
+
+				var movement = {
+					up: false,
+					down: false,
+					left: false,
+					right: false
+				}
+				
+				document.addEventListener('keydown', function(event) {
+					switch (event.keyCode) {
+						case 65: // A
+							movement.left = true;
+							break;
+						case 87: // W
+							movement.up = true;
+							break;
+						case 68: // D
+							movement.right = true;
+							break;
+						case 83: // S
+							movement.down = true;
+							break;
+					}
+				});
+				
+				document.addEventListener('keyup', function(event) {
+					switch (event.keyCode) {
+						case 65: // A
+							movement.left = false;
+							break;
+						case 87: // W
+							movement.up = false;
+							break;
+						case 68: // D
+							movement.right = false;
+							break;
+						case 83: // S
+							movement.down = false;
+							break;
+					}
+				});
+				
+				setInterval(function() {
+					socket.emit('movement', movement);
+				}, 1000/60);
+				
+				var canvas = document.getElementById('canvas');
+				
+				canvas.width = 800;
+				
+				canvas.height = 600;
+				
+				var context = canvas.getContext('2d');
+
+				socket.on('state',function(players_data){
+				
+					context.clearRect(0, 0, canvas.width, canvas.height);
+					
+					const radian = Math.PI / 180;
+					
+					for(var id in players_data) {
+
+						var play_pos = players_data[id];
+						context.beginPath();
+						context.strokeStyle = 'black';
+						context.fillStyle = play_pos.color;
+						context.lineWidth = 5;
+						context.moveTo(play_pos.x, play_pos.y);
+						context.arc(play_pos.x, play_pos.y, 50, circle_start * radian, circle_end * radian, false);
+						context.stroke();
+						context.fill();
+						// 眼睛
+						context.beginPath();
+						context.fillStyle = 'black';
+						context.arc(play_pos.x, play_pos.y-25, 5, 0 * radian, 360 * radian, false);
+						context.stroke();
+						context.fill();
+					}
+
+				});
+			}
+			
+		</script>
+	</body>		
+</html>
