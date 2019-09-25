@@ -51,6 +51,8 @@ server.listen(8888, function() {
 
 到這裡就可以在http://your_domain_name_or_ip:8888看到剛剛寫好的index.html
 
+![image](https://github.com/leoa12412a/Multiplayer-Browser-Game/blob/master/1.PNG)</br>
+
 ### socket.io指令
 
 這邊先介紹幾個會用到的指令，方便了解一下面的程式
@@ -112,6 +114,7 @@ io.on('connection', function(socket) {
 
 重啟server.js且重新整理http://your_domain_name_or_ip:8888，就可以看到server端輸出使用者id
 
+![image](https://github.com/leoa12412a/Multiplayer-Browser-Game/blob/master/2.PNG)</br>
 
 ### 監聽使用者端的案件控制 及 server廣播所有人位置 
 
@@ -236,6 +239,8 @@ socket.on('state',function(players_data){
 });
 ```
 
+![image](https://github.com/leoa12412a/Multiplayer-Browser-Game/blob/master/3.PNG)</br>
+
 ### 把接收到的參數全部畫成球
 
 這邊會用到js繪圖api<a href="https://www.w3school.com.cn/html5/html_5_canvas.asp">canvas</a>這邊我們使用畫成圓形的方法，修改原本接收所有使用者位置的function
@@ -272,3 +277,5 @@ socket.on('disconnect', () => {
 ```
 
 順利運作得話，會看到螢幕上有一顆圓球
+
+![image](https://github.com/leoa12412a/Multiplayer-Browser-Game/blob/master/4.PNG)</br>
