@@ -1,0 +1,89 @@
+<html>
+  <head>
+    <title>A Multiplayer Game</title>
+    <style>
+      canvas {
+        width: 800px;
+        height: 600px;
+        border: 5px solid black;
+      }
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+	
+	<script>
+		var socket = io();    //宣告io
+
+		socket.emit('new_player');
+		
+		var movement = {
+			up: false,
+			down: false,
+			left: false,
+			right: false
+		}
+		
+		document.addEventListener('keydown', function(event) {
+			switch (event.keyCode) {
+				case 65: // A
+					movement.left = true;
+					break;
+				case 87: // W
+					movement.up = true;
+					break;
+				case 68: // D
+					movement.right = true;
+					break;
+				case 83: // S
+					movement.down = true;
+					break;
+			}
+		});
+		
+		document.addEventListener('keyup', function(event) {
+			switch (event.keyCode) {
+				case 65: // A
+					movement.left = false;
+					break;
+				case 87: // W
+					movement.up = false;
+					break;
+				case 68: // D
+					movement.right = false;
+					break;
+				case 83: // S
+					movement.down = false;
+					break;
+			}
+		});
+		
+		setInterval(function() {
+			socket.emit('movement', movement);
+		}, 1000/60);
+		
+		var canvas = document.getElementById('canvas');
+				
+		canvas.width = 800;
+		
+		canvas.height = 600;
+		
+		var context = canvas.getContext('2d');
+
+		socket.on('state',function(players_data){
+		
+			context.clearRect(0, 0, canvas.width, canvas.height);
+			
+			for(var id in players_data) {
+				var play_pos = players_data[id];
+				context.fillStyle = "red";
+				context.beginPath();
+				context.arc(play_pos.x, play_pos.y, 15, 0, Math.PI*2);
+				context.fill();
+			}
+
+		});
+	</script>
+  </body>
+</html>
