@@ -113,6 +113,113 @@ io.on('connection', function(socket) {
 重啟server.js且重新整理http://your_domain_name_or_ip:8888，就可以看到server端輸出使用者id
 
 
+### 監聽使用者端的案件控制 及 server廣播所有人位置 
 
+index.html 下面js以下，先宣告一個movement陣列來儲存是否有移動，當按下去就是ture，拿起來則是false，且使用setInterval函數每1秒鐘送出60次
 
+```
+<script>
+	var socket = io();    //宣告io
+
+	socket.emit('new_player');
+	
+	var movement = {
+		up: false,
+		down: false,
+		left: false,
+		right: false
+	}
+	
+	document.addEventListener('keydown', function(event) {
+		switch (event.keyCode) {
+			case 65: // A
+				movement.left = true;
+				break;
+			case 87: // W
+				movement.up = true;
+				break;
+			case 68: // D
+				movement.right = true;
+				break;
+			case 83: // S
+				movement.down = true;
+				break;
+		}
+	});
+	
+	document.addEventListener('keyup', function(event) {
+		switch (event.keyCode) {
+			case 65: // A
+				movement.left = false;
+				break;
+			case 87: // W
+				movement.up = false;
+				break;
+			case 68: // D
+				movement.right = false;
+				break;
+			case 83: // S
+				movement.down = false;
+				break;
+		}
+	});
+	
+	setInterval(function() {
+		socket.emit('movement', movement);
+	}, 1000/60);
+</script>
+```
+
+在server.js就要負責接收，且根據id把對應使用者的位置計算後重新存入陣列，並每秒傳送60給所有使用者，所以接收程式會變成下方的樣子
+
+```
+io.on('connection', function(socket) {
+	
+	socket.on('new_player',function(){
+		
+		players[socket.id] = {x:300,y:300};
+
+	});
+	
+	socket.on('movement',function(data){
+		
+		var player = players[socket.id];
+		
+		if(data.left) 
+		{
+			if(player.x!= 10)
+			{
+				player.x -= 5;
+			}
+		}
+		if(data.up) 
+		{
+			if(player.y!= 10)
+			{
+				player.y -= 5;
+			}
+		}
+		if(data.right) 
+		{
+			if(player.x!= 790)
+			{
+				player.x += 5;
+			}
+		}
+		if(data.down) 
+		{
+			if(player.y!= 590)
+			{
+				player.y += 5;
+			}
+		}
+		
+	});
+
+});
+
+setInterval(function() {
+  io.sockets.emit('state', players);
+}, 1000 / 60);
+```
 
