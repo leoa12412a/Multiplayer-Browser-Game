@@ -282,5 +282,5 @@ socket.on('disconnect', () => {
 
 以下文章很推薦參考，很多遊戲邏輯概念，或是一些關於延遲解決辦法的概念以及更進階的概念都在裡面
 
-參考文章:<a href="https://hackernoon.com/how-to-build-a-multiplayer-browser-game-4a793818c29b">網站</a><>
+參考文章:<a href="https://hackernoon.com/how-to-build-a-multiplayer-browser-game-4a793818c29b">網站</a><br>
 上面作者參考的文章:<a href="https://gabrielgambetta.com/client-server-game-architecture.html">網站</a>
