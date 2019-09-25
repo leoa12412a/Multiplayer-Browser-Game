@@ -83,8 +83,36 @@ socket.on('disconnect', () => {
 
 ### 告訴server我是新的使用者
 
-在index.html的部分加入以下程式碼
+在index.html的部分加入以下程式碼，傳送new_player給server
 
 ```
+<script>
+  var socket = io();    //宣告io
+
+  socket.emit('new_player');
+</script>
+```
+
+在server.js加入以下程式碼，監聽有沒有使用者連線 且 傳送new_player，然後輸出使用者的id，並將初始位置存到players陣列內
 
 ```
+var players = {};
+
+io.on('connection', function(socket) {
+	
+	socket.on('new_player',function(){
+		
+    console.log(socket.id);
+    
+		players[socket.id] = {x:300,y:300};
+
+  });
+});
+```
+
+重啟server.js且重新整理http://your_domain_name_or_ip:8888，就可以看到server端輸出使用者id
+
+
+
+
+
