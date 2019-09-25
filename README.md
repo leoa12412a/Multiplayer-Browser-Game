@@ -279,3 +279,8 @@ socket.on('disconnect', () => {
 順利運作得話，會看到螢幕上有一顆圓球，如果不順利的話<a href="https://github.com/leoa12412a/Multiplayer-Browser-Game/tree/master/sample">這裡</a>有寫好的範例
 
 ![image](https://github.com/leoa12412a/Multiplayer-Browser-Game/blob/master/4.PNG)</br>
+
+以下文章很推薦參考，很多遊戲邏輯概念，或是一些關於延遲解決辦法的概念以及更進階的概念都在裡面
+
+參考文章:<a href="https://hackernoon.com/how-to-build-a-multiplayer-browser-game-4a793818c29b">網站</a>
+參考文章作者參考的文章:<a href="https://gabrielgambetta.com/client-server-game-architecture.html">網站</a>
