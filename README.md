@@ -2,13 +2,13 @@
 
 這次的主題是延續上一篇(<a href="https://github.com/leoa12412a/Nodejs-websocket">Nodejs-websocket</a>)，一樣使用nodejs來進行開發，這次還參考了<a href="https://hackernoon.com/how-to-build-a-multiplayer-browser-game-4a793818c29b">坦克大戰製作</a>，這次使用的模組式socket.io和Express框架。
 
-## 首先我們使用npm安裝模組
+### 首先我們使用npm安裝模組
 ```
 npm install --save express socket.io
 ```
 
 
-## 建立一個server.js，並載入模組，記得使用的port需要開啟防火牆
+### 建立一個server.js，並載入模組，記得使用的port需要開啟防火牆
 
 ```
 var express = require('express');
@@ -29,7 +29,7 @@ server.listen(8888, function() {
 });
 ```
 
-## 建立一個index.html，並寫入以下代碼，注意!這裡我們還引入/socket.io/socket.io.js，這由剛剛安裝的socket.io提供的
+### 建立一個index.html，並寫入以下代碼，注意!這裡我們還引入/socket.io/socket.io.js，這由剛剛安裝的socket.io提供的
 ```
 <html>
   <head>
@@ -51,7 +51,7 @@ server.listen(8888, function() {
 
 到這裡就可以在http://your_domain_name_or_ip:8888看到剛剛寫好的index.html
 
-## socket.io指令
+### socket.io指令
 
 這邊先介紹幾個會用到的指令，方便了解一下面的程式
 
@@ -81,7 +81,7 @@ socket.on('disconnect', () => {
 });
 ```
 
-## 告訴server我是新的使用者
+### 告訴server我是新的使用者
 
 在index.html的部分加入以下程式碼
 
