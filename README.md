@@ -55,7 +55,7 @@ server.listen(8888, function() {
 
 這邊先介紹幾個會用到的指令，方便了解一下面的程式
 
-1.監聽是否有使用者連線
+1.監聽是否有使用者連線，function(socket)裡面的socket帶有許多使用者的資訊，例如:socket.id
 ```
 io.on('connection', function(socket) {
 
@@ -72,4 +72,19 @@ io.sockets.emit('message', 'hi!');
 socket.on('new_player',function(data){
 
 });
+```
+
+4.當有使用者離開時觸發
+```
+socket.on('disconnect', () => {
+
+});
+```
+
+## 告訴server我是新的使用者
+
+在index.html的部分加入以下程式碼
+
+```
+
 ```
