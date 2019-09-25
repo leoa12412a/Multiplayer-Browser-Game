@@ -7,8 +7,9 @@
 npm install --save express socket.io
 ```
 
+### 載入模組並簡單的
 
-### 建立一個server.js，並載入模組，記得使用的port需要開啟防火牆
+建立一個server.js，並載入模組，記得使用的port需要開啟防火牆
 
 ```
 var express = require('express');
@@ -29,7 +30,7 @@ server.listen(8888, function() {
 });
 ```
 
-### 建立一個index.html，並寫入以下代碼，注意!這裡我們還引入/socket.io/socket.io.js，這由剛剛安裝的socket.io提供的
+建立一個index.html，並寫入以下代碼，注意!這裡我們還引入/socket.io/socket.io.js，這由剛剛安裝的socket.io提供的
 ```
 <html>
   <head>
