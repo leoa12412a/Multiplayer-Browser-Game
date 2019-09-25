@@ -223,3 +223,52 @@ setInterval(function() {
 }, 1000 / 60);
 ```
 
+在index.html裡加上監聽server回傳值可以輸出所有
+```
+socket.on('state',function(players_data){
+
+	for(var id in players_data) {
+		var play_pos = players_data[id];
+		
+		console.log('x:' + play_pos.x + '| y:' + play_pos.y);
+	}
+
+});
+```
+
+### 把接收到的參數全部畫成球
+
+這邊會用到js繪圖api<a href="https://www.w3school.com.cn/html5/html_5_canvas.asp">canvas</a>這邊我們使用畫成圓形的方法，修改原本接收所有使用者位置的function
+
+```
+var canvas = document.getElementById('canvas');
+				
+canvas.width = 800;
+
+canvas.height = 600;
+
+var context = canvas.getContext('2d');
+
+socket.on('state',function(players_data){
+
+	context.clearRect(0, 0, canvas.width, canvas.height);	//清除上一次畫面
+	
+	for(var id in players_data) {
+		var play_pos = players_data[id];
+		context.fillStyle = "red";
+		context.beginPath();
+		context.arc(play_pos.x, play_pos.y, 15, 0, Math.PI*2);
+		context.fill();
+	}
+
+});
+```
+
+在server.js可以把離開的玩家陣列給刪除
+```
+socket.on('disconnect', () => {
+	delete players[socket.id];
+});
+```
+
+順利運作得話，會看到螢幕上有一顆圓球
