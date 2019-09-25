@@ -276,7 +276,7 @@ socket.on('disconnect', () => {
 });
 ```
 
-順利運作得話，會看到螢幕上有一顆圓球，如果不順利的話<a href="https://github.com/leoa12412a/Multiplayer-Browser-Game/tree/master/sample">這裡</a>有寫好的範例
+順利運作得話，會看到螢幕上有一顆圓球，如果不順利的話<a href="https://github.com/leoa12412a/Multiplayer-Browser-Game/tree/master/sample">這裡</a>有寫好的範例，可以選顏色可愛版的<a href="https://github.com/leoa12412a/Multiplayer-Browser-Game/tree/master/cute"></a>
 
 ![image](https://github.com/leoa12412a/Multiplayer-Browser-Game/blob/master/4.PNG)</br>
 
